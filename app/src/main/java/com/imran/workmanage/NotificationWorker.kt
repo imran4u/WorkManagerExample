@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 
@@ -16,11 +15,12 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
     override fun doWork(): Result {
-        showNotification()
+        val recivieText:String = inputData.getString("SEND_KEY")!!
+        showNotification(recivieText)
         return Result.success()
     }
 
-    private fun showNotification() {
+    private fun showNotification(desText: String) {
         val notificationManager: NotificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -39,7 +39,8 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
         val builder = NotificationCompat.Builder(applicationContext, "CHANNEL_ID")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Test notification from title")
-            .setContentText("Test notification from description")
+//            .setContentText("Test notification from description")
+            .setContentText(desText)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         // Set the intent that will
         with(notificationManager) {

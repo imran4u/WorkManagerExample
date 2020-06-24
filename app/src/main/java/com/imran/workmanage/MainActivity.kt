@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
@@ -15,8 +16,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val data : Data = Data.Builder()
+            .put("SEND_KEY", "Sending Notification description with work request")
+            .build()
         val notificationWorkRequest: WorkRequest =
             OneTimeWorkRequestBuilder<NotificationWorker>()
+                .setInputData(data)
                 .build()
 
 
