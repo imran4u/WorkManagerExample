@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         WorkManager.getInstance(applicationContext).getWorkInfoByIdLiveData(notificationWorkRequest.id).observe(this,
             Observer {
                 textView.append(it.state.name)
+                textView.append("\n")
+                if(it.state.isFinished) {
+                    textView.append(it.outputData.getString("WORKER_SEND"))
+                }
             })
 
     }

@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 
@@ -17,7 +18,11 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
     override fun doWork(): Result {
         val recivieText:String = inputData.getString("SEND_KEY")!!
         showNotification(recivieText)
-        return Result.success()
+        val data = Data.Builder()
+            .putString("WORKER_SEND", "I am worker and assuring you your work has finished")
+            .build()
+
+        return Result.success(data)
     }
 
     private fun showNotification(desText: String) {
