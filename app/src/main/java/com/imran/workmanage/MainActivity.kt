@@ -2,7 +2,9 @@ package com.imran.workmanage
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
@@ -23,6 +25,12 @@ class MainActivity : AppCompatActivity() {
                 .getInstance(applicationContext)
                 .enqueue(notificationWorkRequest)
         })
+
+        // To get result back from worker
+        WorkManager.getInstance(applicationContext).getWorkInfoByIdLiveData(notificationWorkRequest.id).observe(this,
+            Observer {
+                textView.append(it.state.name)
+            })
 
     }
 }
